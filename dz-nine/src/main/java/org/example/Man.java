@@ -11,6 +11,11 @@ public class Man extends Person {
     }
 
     @Override
+    public boolean isRetired() {
+        return getAge() >= 65;
+    }
+
+    @Override
     public void registerPartnership(Person partner) {
         if (partner.getGender() == Gender.Woman) {
             this.setPartner(partner);

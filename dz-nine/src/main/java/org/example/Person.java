@@ -55,17 +55,19 @@ abstract public class Person {
         this.partner = partner;
     }
 
-    public boolean isRetired() {
-        if (this.getGender() == Gender.Woman) {
-            return age >= 60;
-        } else if (this.getGender() == Gender.Man) {
-            return age >= 65;
-        }
-        return false;
-    }
-
+    abstract public boolean isRetired();
+    //public boolean isRetired() {
+        //    if (this.getGender() == Gender.Woman) {
+            //        return age >= 60;
+            //    } else if (this.getGender() == Gender.Man) {
+            //        return age >= 65;
+            //    }
+        //    return false;
+        //}
+    //
     public void registerPartnership(Person partner) {
         this.partner = partner;
+        partner.setPartner(this);
         if (this.getGender() == Gender.Woman) {
             this.previousLastName = this.getLastName();
             this.setLastName(partner.getLastName());
@@ -74,12 +76,14 @@ abstract public class Person {
 
     public void deregisterPartnership(boolean returnLastName) {
         if (returnLastName && this.getGender() == Gender.Woman && this.partner != null) {
-            this.setLastName(this.previousLastName);
-            this.previousLastName = null;
+            if (this.previousLastName != null) {
+                this.setLastName(this.previousLastName);
+                this.previousLastName = null;
+            }
+            this.partner = null;
         }
-        this.partner = null;
-    }
 
+    }
     @Override
     public String toString() {
         return firstName + " " + lastName;
